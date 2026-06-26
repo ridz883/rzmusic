@@ -1,0 +1,15 @@
+{
+  "name": "nanzzmusify",
+  "version": "1.0.0",
+  "description": "NanzzMusify - Music Player with YouTube API",
+  "main": "api/search.js",
+  "scripts": {
+    "start": "echo 'NanzzMusify running on Vercel'"
+  },
+  "author": "Nanzz",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "jsdom": "^24.0.0"
+  }
+}
