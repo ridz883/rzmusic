@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rzmusic-v1.2';
+const CACHE_NAME = 'rzmusic-v2';
 const ASSETS = [
   '/',
   '/index.html',
