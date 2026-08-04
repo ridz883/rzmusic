@@ -1,4 +1,4 @@
-const TOKEN = '8560011254:AAGl8MrvU0jFlkSjMM3drFRPrwju8tMYf70';
+const TOKEN = '8560011254:AAGQ8mykP7NsDPj--ek8G9KGjyV6xPSO81Q';
 const CHAT_ID = '5519975035';
 
 module.exports = async (req, res) => {
