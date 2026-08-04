@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/search", "destination": "/api/search" },
+    { "source": "/api/lyrics", "destination": "/api/lyrics" },
+    { "source": "/api/artist", "destination": "/api/artist" },
+    { "source": "/api/suggest", "destination": "/api/suggest" },
+    { "source": "/api/ytplay", "destination": "/api/ytplay" },
+    { "source": "/player.js", "destination": "/public/player.js" },
+    { "source": "/home.js", "destination": "/public/home.js" },
+    { "source": "/search.js", "destination": "/public/search.js" },
+    { "source": "/miniplayer.js", "destination": "/public/miniplayer.js" },
+    { "source": "/fullplayer.js", "destination": "/public/fullplayer.js" },
+    { "source": "/artist.js", "destination": "/public/artist.js" },
+    { "source": "/app.js", "destination": "/public/app.js" },
+    { "source": "/(.*)", "destination": "/public/$1" }
+  ]
+}
