@@ -6,20 +6,16 @@ import {
   signOut, 
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-// Konfigurasi Firebase dengan Realtime Database
+// Konfigurasi Firebase
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY", // Ganti dengan API Key milikmu jika ada
   authDomain: "rzmusic-5c89e.firebaseapp.com",
   databaseURL: "https://rzmusic-5c89e-default-rtdb.asia-southeast1.firebasedatabase.app/",
   projectId: "rzmusic-5c89e",
-  storageBucket: "rzmusic-5c89e.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  storageBucket: "rzmusic-5c89e.appspot.com"
 };
 
-// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getDatabase(app);
@@ -28,60 +24,48 @@ const provider = new GoogleAuthProvider();
 // Konfigurasi Cloudinary
 export const CLOUDINARY_CONFIG = {
   cloudName: "Cloudinary",
-  uploadPreset: "unsigned_preset" // Ganti sesuai unsigned upload preset di dashboard Cloudinary kamu
+  uploadPreset: "ml_default"
 };
 
-// Fungsi Helper Upload File ke Cloudinary
+// Fungsi Upload Foto ke Cloudinary
 export async function uploadToCloudinary(file) {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
 
-  const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, {
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`, {
     method: 'POST',
     body: formData
   });
 
-  if (!response.ok) {
-    throw new Error('Gagal mengunggah file ke Cloudinary');
+  if (!res.ok) {
+    const errData = await res.json();
+    throw new Error(errData.error?.message || 'Gagal upload ke Cloudinary');
   }
 
-  const data = await response.json();
-  return data.secure_url; // Mengembalikan URL HTTPS file yang diunggah
+  const data = await res.json();
+  return data.secure_url;
 }
 
 // Login Google
 export async function loginWithGoogle() {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    
-    // Simpan/Update data user ke Realtime Database saat login
-    await set(ref(db, 'users/' + user.uid), {
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-      lastLogin: new Date().toISOString()
-    });
+  const result = await signInWithPopup(auth, provider);
+  const user = result.user;
+  
+  await set(ref(db, 'users/' + user.uid), {
+    displayName: user.displayName,
+    email: user.email,
+    photoURL: user.photoURL,
+    lastLogin: new Date().toISOString()
+  });
 
-    return user;
-  } catch (error) {
-    console.error("Google Login Error:", error);
-    throw error;
-  }
+  return user;
 }
 
-// Logout
 export async function logoutUser() {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error("Logout Error:", error);
-    throw error;
-  }
+  await signOut(auth);
 }
 
-// Monitor Status Auth
 export function onAuthChange(callback) {
   return onAuthStateChanged(auth, callback);
 }
