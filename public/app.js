@@ -301,8 +301,7 @@ const App={
         gid('main-area').scrollTop=0;lucide.createIcons();
     }
 };
-try { App.init(); } catch (e) { console.error('App.init() gagal:', e); }
-try { Home.fetch(); } catch (e) { console.error('Home.fetch() gagal:', e); }
+App.init();Home.fetch();
 
 // ── Update halaman Info saat login/logout ──
 function updateInfoPage() {

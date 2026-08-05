@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rzmusic-v8';
+const CACHE_NAME = 'rzmusic-v7';
 const ASSETS = [
   '/',
   '/index.html',
@@ -9,7 +9,7 @@ const ASSETS = [
   '/fullplayer.js',
   '/search.js',
   '/artist.js',
-  '/supabase-auth.js',
+  '/firebase-auth.js',
   '/logo.png',
   '/dev.png',
   '/icon-192.png',
