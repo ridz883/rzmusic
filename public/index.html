@@ -20,9 +20,7 @@
     <link rel="apple-touch-icon" href="/icon-192.png">
     <title>RZmusic</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Stub biar gak crash kalau CDN lucide gagal/lambat load (ini penyebab splash nyangkut) -->
-    <script>window.lucide = window.lucide || { createIcons: function(){} };</script>
-    <script src="https://unpkg.com/lucide@latest" onload="if(window.lucide&&window.lucide.createIcons)window.lucide.createIcons();" onerror="console.warn('Lucide CDN gagal dimuat, pakai fallback kosong.')"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
         html, body { background: #050507; }
@@ -200,22 +198,6 @@
         <div class="splash-sub">Menyiapkan musikmu</div>
         <div class="splash-bar"><i></i></div>
     </div>
-    <script>
-    // Jaring pengaman: apa pun yang terjadi di app.js (error, CDN gagal, dll),
-    // splash screen WAJIB hilang paling lambat 6 detik. Independen dari app.js.
-    (function () {
-        var forced = false;
-        function forceHideSplash() {
-            if (forced) return;
-            forced = true;
-            var sp = document.getElementById('splash-screen');
-            if (!sp) return;
-            sp.classList.add('hide');
-            setTimeout(function () { if (sp && sp.parentNode) sp.parentNode.removeChild(sp); }, 650);
-        }
-        setTimeout(forceHideSplash, 6000);
-    })();
-    </script>
 
     <div class="flex-1 overflow-y-auto pb-28 hide-scrollbar" id="main-area">
         <div id="view-home"></div>
@@ -239,7 +221,7 @@
     <script src="fullplayer.js"></script>
     <script src="artist.js"></script>
     <script src="app.js"></script>
-    <script type="module" src="supabase-auth.js"></script>
+    <script type="module" src="firebase-auth.js"></script>
     <script>(function () {
   function blockEruda() {
     if (window.eruda) {
